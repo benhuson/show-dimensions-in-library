@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Show Dimensions in Library v1.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-06-17 19:00:07+0000\n"
+"Last-Translator: Janjaap van Dijk <janjaapvandijk@gmail.com>\n"
+"Language-Team: Korean (Korea) (http://www.transifex.com/projects/p/show-dimensions-in-library-wordpress-plugin/language/ko_KR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#. translators: plugin header field 'Name'
+#: jajadi-show-dimensions.php:0
+#@ jajadi-show-dimensions
+msgid "Show Dimensions in Library"
+msgstr "Show Dimensions in Library"
+
+#. translators: plugin header field 'PluginURI'
+#: jajadi-show-dimensions.php:0
+#@ jajadi-show-dimensions
+msgid "http://wordpress.org/extend/plugins/"
+msgstr "http://wordpress.org/extend/plugins/"
+
+#. translators: plugin header field 'Description'
+#: jajadi-show-dimensions.php:0
+#@ jajadi-show-dimensions
+msgid "Show Dimensions in Media Library"
+msgstr "미디어 라이브러리의 표시 크기"
+
+#. translators: plugin header field 'Author'
+#: jajadi-show-dimensions.php:0
+#@ jajadi-show-dimensions
+msgid "Janjaap van Dijk"
+msgstr "Janjaap van Dijk"
+
+#. translators: plugin header field 'AuthorURI'
+#: jajadi-show-dimensions.php:0
+#@ jajadi-show-dimensions
+msgid "http://janjaapvandijk.nl/"
+msgstr "http://janjaapvandijk.nl/"
+
+#: jajadi-show-dimensions.php:32
+#@ jajadi-show-dimensions
+msgid "Dimensions"
+msgstr "차원"
+
+#. translators: plugin header field 'Version'
+#: jajadi-show-dimensions.php:0
+#@ jajadi-show-dimensions
+msgid "1.2"
+msgstr "1.2"
+
