@@ -40,7 +40,9 @@ function jajadi_show_dimensions_size_column_display($column_name, $post_id) {
     if( 'dimensions' != $column_name || !wp_attachment_is_image($post_id))
         return;
 
-    list($url, $width, $height) = wp_get_attachment_image_src($post_id, 'full');
+	$metadata = wp_get_attachment_metadata( $post_id );
+	$width = $metadata['width'];
+	$height = $metadata['height'];
 
     echo esc_html("{$width}&times;{$height}");
 }
