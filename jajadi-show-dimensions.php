@@ -55,21 +55,13 @@ class JajaDi_Show_Dimensions {
 			return;
 		}
 
-		$metadata = wp_get_attachment_metadata( $post_id );
+		$attachment = new JajaDi_Show_Dimensions_Attachment( $post_id );
 
-		if ( $metadata ) {
-			if ( isset( $metadata['width'] ) && isset( $metadata['height'] ) ) {
-				$width = absint( $metadata['width'] );
-				$height = absint( $metadata['height'] );
-				update_post_meta( $post_id, 'jajadi_show_dimensions', $width * $height );
-			} else {
-				update_post_meta( $post_id, 'jajadi_show_dimensions', 0 );
-			}
-		} else {
-			update_post_meta( $post_id, 'jajadi_show_dimensions', 0 );
-		}
+		// Update size meta data
+		// @todo  This could be done on image upload/edit instead?
+		$attachment->update_meta_data();
 
-		echo esc_html( "{$width}&times;{$height}" );
+		echo $attachment->get_dimensions_display();
 	}
 
 	/**
@@ -113,33 +105,6 @@ class JajaDi_Show_Dimensions {
 	}
 
 	/**
-	 * Update Size
-	 *
-	 * The image size is stored as meta data so that it can be used when ordering.
-	 * The size is saved as the area of the image (width × height).
-	 *
-	 * @param   int  $post_id  Post ID.
-	 * @return  int            Image size (area).
-	 */
-	public function update_size( $post_id ) {
-		$size = 0;
-		$metadata = wp_get_attachment_metadata( $post_id );
-
-		if ( $metadata ) {
-			if ( isset( $metadata['width'] ) && isset( $metadata['height'] ) ) {
-				$size = absint( $metadata['width'] ) * absint( $metadata['height'] );
-				update_post_meta( $post_id, 'jajadi_show_dimensions', $size );
-			} else {
-				update_post_meta( $post_id, 'jajadi_show_dimensions', $size );
-			}
-		} else {
-			update_post_meta( $post_id, 'jajadi_show_dimensions', $size );
-		}
-
-		return $size;
-	}
-
-	/**
 	 * Update Metadata
 	 */
 	public function update_metadata() {
@@ -153,7 +118,8 @@ class JajaDi_Show_Dimensions {
 
 		if ( $attachments ) {
 			foreach ( $attachments as $post ) {
-				$this->update_size( $post->ID );
+				$attachment = new JajaDi_Show_Dimensions_Attachment( $post->ID );
+				$attachment->update_meta_data();
 			}
 			wp_reset_postdata();
 		}
@@ -173,7 +139,8 @@ class JajaDi_Show_Dimensions {
 
 		if ( $attachments ) {
 			foreach ( $attachments as $post ) {
-				delete_post_meta( $post->ID, 'jajadi_show_dimensions' );
+				$attachment = new JajaDi_Show_Dimensions_Attachment( $post->ID );
+				$attachment->delete_meta_data();
 			}
 		}
 	}
@@ -215,6 +182,86 @@ class JajaDi_Show_Dimensions {
 	 */
 	public function load_textdomain() {
 		load_plugin_textdomain( 'jajadi-show-dimensions', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+
+}
+
+class JajaDi_Show_Dimensions_Attachment {
+
+	protected $id = 0;
+
+	/**
+	 * Create attachment
+	 *
+	 * @param  int  $attachment_id  Post ID.
+	 */
+	public function __construct( $attachment_id ) {
+		$this->id = absint( $attachment_id );
+	}
+
+	/**
+	 * Get Dimensions
+	 *
+	 * @return  array  Dimension values.
+	 */
+	public function get_dimensions() {
+		$metadata = wp_get_attachment_metadata( $this->id );
+		$dimensions = array(
+			'width'  => '',
+			'height' => ''
+		);
+
+		if ( $metadata ) {
+			$dimensions = shortcode_atts( $dimensions, $metadata );
+			return array_map( 'absint', $dimensions );
+		}
+
+		return $dimensions;
+	}
+
+	/**
+	 * Get Dimensions Display
+	 *
+	 * @return  string  Dimensions HTML.
+	 */
+	public function get_dimensions_display() {
+		$metadata = $this->get_dimensions();
+
+		if ( '' != $metadata['width'] && '' != $metadata['height'] ) {
+			return esc_html( $metadata['width'] . '&times;' . $metadata['height'] );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Update dimensions meta data
+	 *
+	 * @return  int  Image area.
+	 */
+	public function update_meta_data() {
+		$size = 0;
+		$metadata = wp_get_attachment_metadata( $this->id );
+
+		if ( $metadata ) {
+			if ( isset( $metadata['width'] ) && isset( $metadata['height'] ) ) {
+				$size = absint( $metadata['width'] ) * absint( $metadata['height'] );
+				update_post_meta( $this->id, 'jajadi_show_dimensions', $size );
+			} else {
+				update_post_meta( $this->id, 'jajadi_show_dimensions', $size );
+			}
+		} else {
+			update_post_meta( $this->id, 'jajadi_show_dimensions', $size );
+		}
+
+		return $size;
+	}
+
+	/**
+	 * Delete dimensions meta data
+	 */
+	public function delete_meta_data() {
+		delete_post_meta( $this->id, 'jajadi_show_dimensions' );
 	}
 
 }
