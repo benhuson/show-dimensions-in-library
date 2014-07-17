@@ -41,20 +41,111 @@ function jajadi_show_dimensions_size_column_display($column_name, $post_id) {
         return;
 
 	$metadata = wp_get_attachment_metadata( $post_id );
-	$width = $metadata['width'];
-	$height = $metadata['height'];
+
+	if ( $metadata ) {
+		if ( isset( $metadata['width'] ) && isset( $metadata['height'] ) ) {
+			$width = absint( $metadata['width'] );
+			$height = absint( $metadata['height'] );
+			update_post_meta( $post_id, 'jajadi_show_dimensions', $width * $height );
+		} else {
+			update_post_meta( $post_id, 'jajadi_show_dimensions', 0 );
+		}
+	} else {
+		update_post_meta( $post_id, 'jajadi_show_dimensions', 0 );
+	}
 
     echo esc_html("{$width}&times;{$height}");
 }
 
+function jajadi_show_dimensions_size_column_register_sortable( $columns ) {
+	$columns['dimensions'] = 'jajadi_show_dimensions';
+	return $columns;
+}
+
+function jajadi_show_dimensions_size_column_orderby( $vars ) {
+
+	if ( isset( $vars['orderby'] ) && 'jajadi_show_dimensions' == $vars['orderby'] ) {
+		$vars = array_merge( $vars, array(
+			'meta_key' => 'jajadi_show_dimensions',
+			'orderby'  => 'meta_value_num'
+		) );
+	}
+
+	return $vars;
+}
+
+function jajadi_show_dimensions_update_size( $post_id ) {
+	$size = 0;
+	$metadata = wp_get_attachment_metadata( $post_id );
+
+	if ( $metadata ) {
+		if ( isset( $metadata['width'] ) && isset( $metadata['height'] ) ) {
+			$size = absint( $metadata['width'] ) * absint( $metadata['height'] );
+			update_post_meta( $post_id, 'jajadi_show_dimensions', $size );
+		} else {
+			update_post_meta( $post_id, 'jajadi_show_dimensions', $size );
+		}
+	} else {
+		update_post_meta( $post_id, 'jajadi_show_dimensions', $size );
+	}
+
+	return $size;
+}
+
+function jajadi_show_dimensions_run_metadata() {
+	$args = array(
+		'numberposts' => -1,
+		'post_parent' => null,
+		'post_status' => null,
+		'post_type'   => 'attachment'
+	);
+	$attachments = get_posts( $args );
+
+	if ( $attachments ) {
+		foreach ( $attachments as $post ) {
+			jajadi_show_dimensions_update_size( $post->ID );
+		}
+		wp_reset_postdata();
+	}
+}
+
+function jajadi_show_dimensions_clear_metadata() {
+	$args = array(
+		'numberposts' => -1,
+		'post_parent' => null,
+		'post_status' => null,
+		'post_type'   => 'attachment'
+	);
+	$attachments = get_posts( $args );
+
+	if ( $attachments ) {
+		foreach ( $attachments as $post ) {
+			delete_post_meta( $post->ID, 'jajadi_show_dimensions' );
+		}
+	}
+}
 
 function jajadi_show_dimensions_load_textdomain() {
 	load_plugin_textdomain( 'jajadi-show-dimensions', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 
+function jajadi_show_dimensions_activate() {
+	jajadi_show_dimensions_run_metadata();
+}
+
+function jajadi_show_dimensions_deactivate() {
+	jajadi_show_dimensions_clear_metadata();
+}
+
+// Actvation / Deactivation Hooks
+register_activation_hook( __FILE__, 'jajadi_show_dimensions_activate' );
+register_deactivation_hook( __FILE__, 'jajadi_show_dimensions_deactivate' );
+
 // Hooks a function on to a specific action.
 add_action( 'plugins_loaded', 'jajadi_show_dimensions_load_textdomain');
 add_filter('manage_upload_columns', 'jajadi_show_dimensions_size_column_register');
+add_filter( 'manage_upload_sortable_columns', 'jajadi_show_dimensions_size_column_register_sortable' );
+add_filter( 'request', 'jajadi_show_dimensions_size_column_orderby' );
 add_action('manage_media_custom_column', 'jajadi_show_dimensions_size_column_display', 10, 2);
 
 ?>
