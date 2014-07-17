@@ -225,10 +225,11 @@ class JajaDi_Show_Dimensions_Attachment {
 	 * @return  string  Dimensions HTML.
 	 */
 	public function get_dimensions_display() {
-		$metadata = $this->get_dimensions();
+		$meta = $this->get_dimensions();
 
-		if ( '' != $metadata['width'] && '' != $metadata['height'] ) {
-			return esc_html( $metadata['width'] . '&times;' . $metadata['height'] );
+		if ( '' != $meta['width'] && '' != $meta['height'] ) {
+			$media_dims = "<span id='media-dims-$this->id'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
+			return apply_filters( 'media_meta', $media_dims, get_post( $this->id ) );
 		}
 
 		return '';
