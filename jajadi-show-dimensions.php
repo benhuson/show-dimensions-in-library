@@ -129,12 +129,27 @@ function jajadi_show_dimensions_load_textdomain() {
 	load_plugin_textdomain( 'jajadi-show-dimensions', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 
+function jajadi_show_dimensions_check_upgrade() {
+	if ( function_exists( 'get_current_screen' ) ) {
+		$screen = get_current_screen();
+		if ( isset( $screen->base ) && 'upload' == $screen->base ) {
+			$version = get_option( 'jajadi_show_dimensions_version', '0' );
+			if ( version_compare( $version, '1.3', '<' ) ) {
+				jajadi_show_dimensions_clear_metadata();
+				jajadi_show_dimensions_run_metadata();
+				update_option( 'jajadi_show_dimensions_version', '1.3' );
+			}	
+		}
+	}
+}
+
 function jajadi_show_dimensions_activate() {
 	jajadi_show_dimensions_run_metadata();
 }
 
 function jajadi_show_dimensions_deactivate() {
 	jajadi_show_dimensions_clear_metadata();
+	delete_option( 'jajadi_show_dimensions_version' );
 }
 
 // Actvation / Deactivation Hooks
@@ -142,6 +157,7 @@ register_activation_hook( __FILE__, 'jajadi_show_dimensions_activate' );
 register_deactivation_hook( __FILE__, 'jajadi_show_dimensions_deactivate' );
 
 // Hooks a function on to a specific action.
+add_action( 'wp', 'jajadi_show_dimensions_check_upgrade');
 add_action( 'plugins_loaded', 'jajadi_show_dimensions_load_textdomain');
 add_filter('manage_upload_columns', 'jajadi_show_dimensions_size_column_register');
 add_filter( 'manage_upload_sortable_columns', 'jajadi_show_dimensions_size_column_register_sortable' );
