@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Show Dimensions in Library v1.2\n"
+"Project-Id-Version: Show Dimensions in Library v1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-06-17 18:59:37+0000\n"
+"PO-Revision-Date: 2014-09-04 15:17:18+0000\n"
 "Last-Translator: janjaapvandijk <janjaapvandijk@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -58,6 +58,6 @@ msgstr "Afmetingen"
 #. translators: plugin header field 'Version'
 #: jajadi-show-dimensions.php:0
 #@ jajadi-show-dimensions
-msgid "1.2"
-msgstr "1.2"
+msgid "1.3"
+msgstr "1.3"
 

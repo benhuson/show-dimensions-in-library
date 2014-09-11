@@ -3,10 +3,10 @@
 	Plugin Name: Show Dimensions in Library
 	Plugin URI: http://wordpress.org/extend/plugins/
 	Description: Show Dimensions in Media Library
-	Version: 1.2
+	Version: 1.3
 	Author: Janjaap van Dijk
 	Author URI: http://janjaapvandijk.nl/
-	Last Updated: 2014-04-06
+	Last Updated: 2014-04-09
  	License: GPLv2 or later
  	Text Domain: jajadi-show-dimensions
 	Domain Path: /languages/
@@ -40,7 +40,10 @@ function jajadi_show_dimensions_size_column_display($column_name, $post_id) {
     if( 'dimensions' != $column_name || !wp_attachment_is_image($post_id))
         return;
 
-    list($url, $width, $height) = wp_get_attachment_image_src($post_id, 'full');
+    //list($url, $width, $height) = wp_get_attachment_image_src($post_id, 'full');
+	$metadata = wp_get_attachment_metadata( $post_id );
+	$width = $metadata['width'];
+	$height = $metadata['height'];
 
     echo esc_html("{$width}&times;{$height}");
 }
@@ -50,9 +53,22 @@ function jajadi_show_dimensions_load_textdomain() {
 	load_plugin_textdomain( 'jajadi-show-dimensions', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 
+// Register the column as sortable
+function jajadi_show_dimensions_size_column_register_sortable( $columns ) {
+	$columns['dimensions'] = 'dimensions';
+ 
+	return $columns;
+}
+
+
+
+
 // Hooks a function on to a specific action.
 add_action( 'plugins_loaded', 'jajadi_show_dimensions_load_textdomain');
 add_filter('manage_upload_columns', 'jajadi_show_dimensions_size_column_register');
 add_action('manage_media_custom_column', 'jajadi_show_dimensions_size_column_display', 10, 2);
+
+add_filter( 'manage_upload_sortable_columns', 'jajadi_show_dimensions_size_column_register_sortable' );
+
 
 ?>

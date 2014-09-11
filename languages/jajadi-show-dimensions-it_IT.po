@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Show Dimensions in Library v1.2\n"
+"Project-Id-Version: Show Dimensions in Library v1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-06-17 18:59:01+0000\n"
+"PO-Revision-Date: 2014-09-04 15:15:18+0000\n"
 "Last-Translator: Janjaap van Dijk <janjaapvandijk@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/projects/p/show-dimensions-in-library-wordpress-plugin/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "http://wordpress.org/extend/plugins/"
 #: jajadi-show-dimensions.php:0
 #@ jajadi-show-dimensions
 msgid "Show Dimensions in Media Library"
-msgstr "Mostra Dimensioni in Mediateca "
+msgstr "Mostra Dimensioni in Mediateca"
 
 #. translators: plugin header field 'Author'
 #: jajadi-show-dimensions.php:0
@@ -58,6 +58,6 @@ msgstr "Dimensioni"
 #. translators: plugin header field 'Version'
 #: jajadi-show-dimensions.php:0
 #@ jajadi-show-dimensions
-msgid "1.2"
-msgstr "1.2"
+msgid "1.3"
+msgstr "1.3"
 

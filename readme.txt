@@ -3,8 +3,8 @@ Contributors: DoubelJ
 Donate link: http://janjaapvandijk.nl/
 Tags: images, media, dimensions, admin
 Requires at least: 3.0.1
-Tested up to: 3.9
-Stable tag: 1.2
+Tested up to: 4.0
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,9 +32,14 @@ You can find answers to your questions, suggest a feed, or just drop us a line a
 
 == Screenshots ==
 
-1. As is.
+1. Dimensions in 3.9
+
+2. Dimensions in 4.0
 
 == Changelog ==
+
+= 1.3 =
+* Update: Make column sortable. Tnx to [Ben Huson](http://profiles.wordpress.org/husobj/)
 
 = 1.2 =
 * Add German, French, Italian, Japanese, Korean, Russian language.
@@ -46,6 +51,9 @@ You can find answers to your questions, suggest a feed, or just drop us a line a
 * First relaese.
 
 == Upgrade Notice ==
+
+= 1.3 =
+Make Dimension column sortable
 
 = 1.2 =
 This version add German, French, Italian, Japanese, Korean, Russian language
