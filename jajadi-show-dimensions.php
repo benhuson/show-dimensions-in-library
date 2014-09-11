@@ -3,7 +3,7 @@
 	Plugin Name: Show Dimensions in Library
 	Plugin URI: http://wordpress.org/extend/plugins/
 	Description: Show Dimensions in Media Library
-	Version: 1.3
+	Version: 1.4
 	Author: Janjaap van Dijk
 	Author URI: http://janjaapvandijk.nl/
 	Last Updated: 2014-04-09
@@ -61,6 +61,17 @@ function jajadi_show_dimensions_size_column_register_sortable( $columns ) {
 }
 
 
+function jajadi_show_dimensions_size_column_orderby( $query ) {
+    if( ! is_admin() )
+        return;
+ 
+    $orderby = $query->get( 'orderby');
+ 
+    if( 'dimensions' == $orderby ) {
+        $query->set('meta_key','_wp_attachment_metadata');
+        $query->set('orderby','meta_value');
+    }
+}
 
 
 // Hooks a function on to a specific action.
@@ -69,6 +80,7 @@ add_filter('manage_upload_columns', 'jajadi_show_dimensions_size_column_register
 add_action('manage_media_custom_column', 'jajadi_show_dimensions_size_column_display', 10, 2);
 
 add_filter( 'manage_upload_sortable_columns', 'jajadi_show_dimensions_size_column_register_sortable' );
+add_action( 'pre_get_posts', 'jajadi_show_dimensions_size_column_orderby' );
 
 
 ?>
